@@ -16,8 +16,17 @@ const cats = [
     owner: '2',
     filename: 'http://placekitten.com/400/302',
   },
-];
-
+  {
+  id: '23',
+    name: 'James',
+    birthdate: '2015-12-25',
+    weight: '11',
+    owner: '2',
+    filename: 'http://placekitten.com/400/302',
+  },
+  
+  ];
 module.exports = {
+
   cats,
 };
