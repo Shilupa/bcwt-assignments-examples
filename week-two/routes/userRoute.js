@@ -9,9 +9,7 @@ router.get("/", userController.getUsers);
 
 router.get("/:userId", userController.getUser);
 
-router.post("/user", (req, res) => {
-  res.send("From this endpoint you can add more users.");
-});
+router.post("/", userController.createUser);
 
 router.put("/user", (req, res) => {
   console.log(req);

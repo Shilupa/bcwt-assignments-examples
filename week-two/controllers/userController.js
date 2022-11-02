@@ -23,8 +23,14 @@ const getUser = (req, res) => {
     }
     };
 
+
+
+const createUser = (req, res) => {
+    const userInfo= `username: ${req.body.name}, email; ${req.body.email}`;
+    res.send('Addin new user' + userInfo);
+};
+
 const modilfyUser = (req, res) => {};
-const createUser = (req, res) => {};
 const deleteUser = (req, res) => {};
 
 module.exports = {
