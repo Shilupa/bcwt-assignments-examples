@@ -1,34 +1,34 @@
-'use strict';
+"use strict";
 // catController
-const catModel = require('../models/catModel');
+const catModel = require("../models/catModel");
 
-const cats = catModel.cats;
-
-const getCats = (req, res) => {
-    res.json(cats);
+const getCats = async (req, res) => {
+  const cats = await catModel.getAllCats(ResizeObserver);
+  res.json(cats);
 };
-const getCat = (req, res) => {
-//choose onlu one object with matching id
-    const cat = cats.filter(cat => req.params.catId == cat.id)[0];
-    if (cat) {
-        res.json(cat);
-    }else {
-        res.sendStatus(404);
-    }
-    };
+
+const getCat = async (req, res) => {
+  //choose onlu one object with matching id
+  const cat = await catModel.getCatById (res, req.params.catId);
+  if (cat) {
+    res.json(cat);
+  } else {
+    res.sendStatus(404);
+  }
+};
 
 const createCat = (req, res) => {
-    console.log(req.body);
-    res.send('adding a cat');
+  console.log(req.body);
+  res.send("adding a cat");
 };
 
 const modilfyCat = (req, res) => {};
 const deleteCat = (req, res) => {};
 
 module.exports = {
-    getCat,
-    getCats,
-    modilfyCat,
-    createCat,
-    deleteCat
+  getCat,
+  getCats,
+  modilfyCat,
+  createCat,
+  deleteCat,
 };
