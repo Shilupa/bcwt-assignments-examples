@@ -1,4 +1,6 @@
 node_modules/
-week-two/ploads/*
+week-two/uploads/*
 !week-two/uploads/.gitkeep
 
+#mac
+.DS_Store
