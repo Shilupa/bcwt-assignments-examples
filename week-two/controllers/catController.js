@@ -3,7 +3,7 @@
 const catModel = require("../models/catModel");
 
 const getCats = async (req, res) => {
-  const cats = await catModel.getAllCats(res);
+  const cats = await catModel.getAllCats(resa);
   res.json(cats);
 };
 
