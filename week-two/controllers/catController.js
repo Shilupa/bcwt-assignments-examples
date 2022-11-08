@@ -3,7 +3,7 @@
 const catModel = require("../models/catModel");
 
 const getCats = async (req, res) => {
-  const cats = await catModel.getAllCats(resa);
+  const cats = await catModel.getAllCats(res);
   res.json(cats);
 };
 
@@ -28,8 +28,8 @@ const createCat = async (req, res) => {
 const modilfyCat = (req, res) => {};
 
 const deleteCat = async(req, res) => {
-  const result = await catModel.deleteCatById(res.params.catId, res);
-  console.log('cat deleted', result)
+  const result = await catModel.deleteCatById(req.params.catId, res);
+   console.log('cat deleted', result)
   if (result.affectedRows > 0){
     res.json({message: 'cat deleted'});
   } else {

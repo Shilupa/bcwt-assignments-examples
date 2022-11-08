@@ -39,15 +39,17 @@ const addCat = async (cat, res) => {
 };
 
 const deleteCatById = async (catId, res) => {
+  console.log("model",catId)
   try {
     // TODO: do the LEFT (or INNER) JOIN to get owner's name as ownername (from wop_user table).
     const [rows] = 
-      await promisePool.query("DELETE FROM wop_cat WHERE cat_id = ?", [catId]);
-    return rows [0];
+    await promisePool.query("DELETE FROM wop_cat WHERE cat_id = ?", [catId]);
+    console.log(rows)
+    return rows;
   } catch (e) {
     console.error("error", e.message);
     res.status(500).send(e.message);
-  }
+  } 
 };
 
 
