@@ -3,13 +3,12 @@ const userModel = require('../models/userModel');
 
 const getUsers = async(req, res) => {
     const users = await userModel.getAllUsers(res);
-   
     res.json(users);
 };
 
 const getUser = async (req, res) => {
 //choose onlu one object with matching id
-    const user = await userModel.getUsetById(req.params.usetI, res);
+    const user = await userModel.getUsetById(req.params.usetId, res);
     if (user) {
         res.json(user);
     }else {

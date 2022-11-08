@@ -13,9 +13,9 @@ const promisePool = pool.promise();
     }
   };
 
-  const getUsersById = async (user, res) => {
+  const getUsersById = async (id, res) => {
     try{
-      const sql = 'INSERT user_id, name, email, role from wop_user' + 'WHERE user_id=' + id;
+      const sql = 'SELECT user_id, name, email, role from wop_user' + 'WHERE user_id=' + id;
       const [rows] = await promisePool.query(sql);
       return rows [0];
     } catch (e) {
@@ -24,11 +24,11 @@ const promisePool = pool.promise();
     }
   };
 
-  const addUser = async (id, res) => {
+  const addUser = async (user, res) => {
     try{
       const sql = 'INSERT INTO wop_user VALUES (null, ?, ?, ?, ?)';
       const values = [user.name, user.email, user.password, user.role] ;
-      const [rows] = await promisePool.query(sql, values);
+      const [result] = await promisePool.query(sql, values);
       return result.insertId;
     } catch (e) {
       console.error("error", e.message);

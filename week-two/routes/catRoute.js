@@ -14,15 +14,12 @@ router.get("/:catId", catController.getCat);
 
 router.post('/', upload.single('cat') ,catController.createCat);
 
-router.put("/cat", (req, res) => {
+router.put("/", (req, res) => {
   console.log(req);
   res.send("From this endpoint you can edit cats.");
 });
 
-router.delete("/user", (req, res) => {
-  res.send("From this endpoint you can delete users.");
-});
-//router.put('TODO');
-//router.delete('TODO');
+router.delete("/:catId", catController.deleteCat);
+
 
 module.exports = router;
