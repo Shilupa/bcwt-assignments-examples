@@ -25,8 +25,11 @@ const renderResults = (data) => {
     h3.textContent = data[i].show.name;
     const img = document.createElement('img');
     img.src = data[i].show.image.medium;
+    const lan = document.createElement('lan');
+    lan.textContext = data[i].show.language;
     results.append(h3);
     results.append(img);
+    results.append(lan);
     //TODO: render more data from the results
     }
 };
