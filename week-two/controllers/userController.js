@@ -25,6 +25,7 @@ const createUser = async (req, res) => {
 };
 
 const modilfyUser = (req, res) => {};
+  
 const deleteUser = (req, res) => {};
 
 module.exports = {

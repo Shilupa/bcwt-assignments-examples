@@ -25,7 +25,18 @@ const createCat = async (req, res) => {
   res.status(201).json({catId});
 };
 
-const modilfyCat = (req, res) => {};
+const modifyCat = async(req, res) => {
+  const catId = req.body;
+  if (req.params.catId){
+    cat.id = req.params.catId;
+  }
+  const result = await catModel.updateCatById(cat, res);
+  if (result.affectedRows > 0) {
+    res.json({message: 'cat modified' + cat.id});
+  } else {
+    res.status(404).json({message: 'nothing changed'});
+  }
+};
 
 const deleteCat = async(req, res) => {
   const result = await catModel.deleteCatById(req.params.catId, res);
@@ -41,7 +52,7 @@ const deleteCat = async(req, res) => {
 module.exports = {
   getCat,
   getCats,
-  modilfyCat,
+  modifyCat,
   createCat,
   deleteCat
 };
