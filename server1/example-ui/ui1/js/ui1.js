@@ -6,13 +6,14 @@ const ul = document.querySelector('ul');
 const getCat = async () => {
   const response = await fetch(url + '/cat');
   const cats = await response.json();
+  console.log(cats);
   for (const cat of cats) {
     const user = await getUser(cat.owner);
     ul.innerHTML += `
     <li>
         <h2>${cat.name}</h2>
         <figure>
-            <img src="${cat.filename}" class="resp">
+            <img src="http://localhost:3000/${cat.filename}" class="resp">
         </figure>
         <p>Birthdate: ${cat.birthdate}</p>
         <p>Weight: ${cat.weight}kg</p>
