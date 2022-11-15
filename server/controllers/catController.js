@@ -1,6 +1,7 @@
 "use strict";
 // catController
 const catModel = require("../models/catModel");
+const {validationResult} = require('express-validator');
 
 const getCats = async (req, res) => {
   const cats = await catModel.getAllCats(res);
@@ -8,7 +9,7 @@ const getCats = async (req, res) => {
 };
 
 const getCat = async (req, res) => {
-  //choose onlu one object with matching id
+  //choose only one object with matching id
   const cat = await catModel.getCatById(res, req.params.catId);
   if (cat) {
     res.json(cat);
@@ -30,8 +31,6 @@ const createCat = async (req, res) => {
       .status(400)
       .json({ message: "cat creation failed", errors: errors.array() });
   }
-  const catId = await catModel.addCat(cat, res);
-  res.status(201).json({ catId });
 };
 
 const modifyCat = async (req, res) => {

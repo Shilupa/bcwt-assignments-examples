@@ -1,7 +1,5 @@
 "use strict";
 const userModel = require("../models/userModel");
-const { body} = require("express-validator");
-
 const { validationResult } = require("express-validator");
 
 const getUsers = async (req, res) => {
@@ -11,7 +9,6 @@ const getUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   //choose onlu one object with matching id
-  console.log(req.params.userId);
   const user = await userModel.getUsersById(req.params.userId, res);
   if (user) {
     res.json(user);
@@ -33,7 +30,10 @@ const createUser = async (req, res) => {
     const result = await userModel.addUser(newUser, res);
     res.status(201).json({ userId: result });
   } else {
-    res.status(400).json({ message: 'user created failed' ,errors: errors.array() });
+    res
+      .status(400)
+      .json({ message: "user created failed", errors: errors.array() 
+    });
   }
 };
 
