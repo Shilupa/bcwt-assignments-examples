@@ -16,14 +16,13 @@ router
   body("email").isEmail(),
   body("passwd").isLength({ min: 8 }),
   userController.createUser)
-  .put("/user", (req, res) => {
+  .put("/", (req, res) => {
     res.send("From this endpoint you can edit users.");
     // TODO: Replace with controller and data model
+  })
+  .delete("/", (req, res) => {
+    res.send("From this endpoint you can delete users.");
   });
-
-router.delete("/user", (req, res) => {
-  res.send("From this endpoint you can delete users.");
-});
 //router.put('TODO');
 //router.delete('TODO');
 
