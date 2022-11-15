@@ -9,7 +9,7 @@ const getCats = async (req, res) => {
 
 const getCat = async (req, res) => {
   //choose onlu one object with matching id
-  const cat = await catModel.getCatById (res, req.params.catId);
+  const cat = await catModel.getCatById(res, req.params.catId);
   if (cat) {
     res.json(cat);
   } else {
@@ -18,35 +18,43 @@ const getCat = async (req, res) => {
 };
 
 const createCat = async (req, res) => {
-  const cat = req.body;
-  cat.filename = req.file.filename;
-  console.log('creating a new cat:', cat);
+  const errors = validationResult(req);
+  if (errors.isEmpty() && cat.filename) {
+    const cat = req.body;
+    cat.filename = req.file.filename;
+    console.log("creating a new cat:", cat);
+    const catId = await catModel.addCat(cat, res);
+    res.status(201).json({ message: "cat created", catId });
+  } else {
+    res
+      .status(400)
+      .json({ message: "cat creation failed", errors: errors.array() });
+  }
   const catId = await catModel.addCat(cat, res);
-  res.status(201).json({catId});
+  res.status(201).json({ catId });
 };
 
-const modifyCat = async(req, res) => {
+const modifyCat = async (req, res) => {
   const catId = req.body;
-  if (req.params.catId){
+  if (req.params.catId) {
     cat.id = req.params.catId;
   }
   const result = await catModel.updateCatById(cat, res);
   if (result.affectedRows > 0) {
-    res.json({message: 'cat modified' + cat.id});
+    res.json({ message: "cat modified" + cat.id });
   } else {
-    res.status(404).json({message: 'nothing changed'});
+    res.status(404).json({ message: "nothing changed" });
   }
 };
 
-const deleteCat = async(req, res) => {
+const deleteCat = async (req, res) => {
   const result = await catModel.deleteCatById(req.params.catId, res);
-   console.log('cat deleted', result)
-  if (result.affectedRows > 0){
-    res.json({message: 'cat deleted'});
+  console.log("cat deleted", result);
+  if (result.affectedRows > 0) {
+    res.json({ message: "cat deleted" });
   } else {
-    res.status(404).json({message: 'cat was already deleted'});
+    res.status(404).json({ message: "cat was already deleted" });
   }
-  
 };
 
 module.exports = {
@@ -54,5 +62,5 @@ module.exports = {
   getCats,
   modifyCat,
   createCat,
-  deleteCat
+  deleteCat,
 };

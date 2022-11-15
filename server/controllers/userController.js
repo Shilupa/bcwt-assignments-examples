@@ -1,5 +1,7 @@
 "use strict";
 const userModel = require("../models/userModel");
+const { body} = require("express-validator");
+
 const { validationResult } = require("express-validator");
 
 const getUsers = async (req, res) => {
