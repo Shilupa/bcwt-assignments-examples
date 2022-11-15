@@ -20,7 +20,7 @@ const getCat = async (req, res) => {
 
 const createCat = async (req, res) => {
   const errors = validationResult(req);
-  if (errors.isEmpty() && cat.filename) {
+  if (errors.isEmpty() && req.file) {
     const cat = req.body;
     cat.filename = req.file.filename;
     console.log("creating a new cat:", cat);

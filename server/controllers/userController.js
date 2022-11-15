@@ -20,19 +20,19 @@ const getUser = async (req, res) => {
 const createUser = async (req, res) => {
   console.log("Creating a new user:", req.body);
   const newUser = req.body;
-  if (newUser.role) {
-    //default user role (normal user)
+  if (!newUser.role) {
+    // default user role (normal user)
     newUser.role = 1;
   }
   const errors = validationResult(req);
-  console.log("validation errors", errors);
+  console.log("validation errors", newUser);
   if (errors.isEmpty()) {
     const result = await userModel.addUser(newUser, res);
-    res.status(201).json({ userId: result });
+    res.status(201).json({ message: "user created", userId: result });
   } else {
-    res
-      .status(400)
-      .json({ message: "user created failed", errors: errors.array() 
+    res.status(400).json({
+      message: "user creation failed",
+      errors: errors.array(),
     });
   }
 };
