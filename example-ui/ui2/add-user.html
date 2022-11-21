@@ -23,7 +23,7 @@
                 <form action="http://localhost:3000/user" method="post" class="light-border" id="addUserForm">
                     <input class="light-border" type="text" required minlength="3" name="name" placeholder="Name">
                     <input class="light-border" type="text" required name="email" placeholder="email">
-                    <input class="light-border" type="text" pattern="(?=.*[A-Z].{8,})" name="passwd" placeholder="Password">
+                    <input class="light-border" type="text" pattern=".{8,}" name="passwd" placeholder="Password">
                     <button class="light-border" type="submit">Save</button>
                 </form>
             </div>
