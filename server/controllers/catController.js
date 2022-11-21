@@ -38,7 +38,7 @@ if (!req.file) {
 };
 
 const modifyCat = async (req, res) => {
-  const catId = req.body;
+  const cat = req.body;
   if (req.params.catId) {
     cat.id = req.params.catId;
   }
