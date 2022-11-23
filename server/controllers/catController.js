@@ -26,6 +26,7 @@ if (!req.file) {
 }
  else if (errors.isEmpty()) {
     const cat = req.body;
+    cat.owner = userId;
     cat.filename = req.file.filename;
     console.log("creating a new cat:", cat);
     const catId = await catModel.addCat(cat, res);
@@ -51,12 +52,12 @@ const modifyCat = async (req, res) => {
 };
 
 const deleteCat = async (req, res) => {
-  const result = await catModel.deleteCatById(req.params.catId, res);
+  const result = await catModel.deleteCatById(req.params.catId, req.user_id, res);
   console.log("cat deleted", result);
   if (result.affectedRows > 0) {
     res.json({ message: "cat deleted" });
   } else {
-    res.status(404).json({ message: "cat was already deleted" });
+    res.status(401).json({ message: "cat delete failed" });
   }
 };
 
