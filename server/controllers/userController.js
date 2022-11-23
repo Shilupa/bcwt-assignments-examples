@@ -59,6 +59,9 @@ const deleteUser = async (req, res) => {
     res.status(404).json({ message: "user was already deleted" });
   }
 };
+const checkToken = (req,res) => {
+  res.json({user: req.user});
+}
 
 module.exports = {
   getUser,
@@ -66,4 +69,5 @@ module.exports = {
   modilfyUser,
   createUser,
   deleteUser,
+  checkToken,
 };
