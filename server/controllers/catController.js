@@ -1,7 +1,7 @@
 "use strict";
 // catController
 const catModel = require("../models/catModel");
-const {validationResult} = require('express-validator');
+const { validationResult } = require("express-validator");
 
 const getCats = async (req, res) => {
   const cats = await catModel.getAllCats(res);
@@ -21,10 +21,9 @@ const getCat = async (req, res) => {
 const createCat = async (req, res) => {
   const errors = validationResult(req);
   // File is empty or missing (not passing multer's fileFilter in route)
-if (!req.file) {
-  res.status(400).json({message: 'file missing or invalid'});
-}
- else if (errors.isEmpty()) {
+  if (!req.file) {
+    res.status(400).json({ message: "file missing or invalid" });
+  } else if (errors.isEmpty()) {
     const cat = req.body;
     cat.owner = userId;
     cat.filename = req.file.filename;
@@ -52,7 +51,7 @@ const modifyCat = async (req, res) => {
 };
 
 const deleteCat = async (req, res) => {
-  const result = await catModel.deleteCatById(req.params.catId, req.user_id, res);
+  const result = await catModel.deleteCatById(req.params.catId, req.user, res);
   console.log("cat deleted", result);
   if (result.affectedRows > 0) {
     res.json({ message: "cat deleted" });
