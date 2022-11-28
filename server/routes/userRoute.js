@@ -10,7 +10,7 @@ const userController = require("../controllers/userController");
 //TODO:  chain the router method calls
 router
   .get("/", userController.getUsers)
-  .get('/token', userController.checkToken)
+  .get("/token", userController.checkToken)
   .get("/:userId", userController.getUser)
   .post(
     "/",
