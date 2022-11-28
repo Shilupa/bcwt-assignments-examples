@@ -6,6 +6,7 @@ const { login } = require("../controllers/authController");
 const userController = require("../controllers/userController");
 
 router.post("/login", login);
+
 router.post(
   "/register",
   body("name").isLength({ min: 3 }).trim().escape(),
