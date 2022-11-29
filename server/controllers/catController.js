@@ -1,17 +1,23 @@
-"use strict";
-// catController
-const catModel = require("../models/catModel");
-const { validationResult } = require("express-validator");
+'use strict';
+const catModel = require('../models/catModel');
+const {validationResult} = require('express-validator');
 
 const getCats = async (req, res) => {
   const cats = await catModel.getAllCats(res);
+  cats.map(cat => {
+    // convert birthdate date object to 'YYYY-MM-DD' string format
+    cat.birthdate = cat.birthdate.toISOString().split('T')[0];
+    return cat;
+  });
   res.json(cats);
 };
 
 const getCat = async (req, res) => {
-  //choose only one object with matching id
+  // choose only one object with matching id
   const cat = await catModel.getCatById(res, req.params.catId);
   if (cat) {
+    // convert date object to 'YYYY-MM-DD' format
+    cat.birthdate = cat.birthdate.toISOString().split('T')[0];
     res.json(cat);
   } else {
     res.sendStatus(404);
@@ -22,41 +28,45 @@ const createCat = async (req, res) => {
   const errors = validationResult(req);
   // File is empty or missing (not passing multer's fileFilter in route)
   if (!req.file) {
-    res.status(400).json({ message: "file missing or invalid" });
-  } else if (errors.isEmpty()) {
+    res.status(400).json({message: 'file missing or invalid'});
+  }
+  else if (errors.isEmpty()) {
     const cat = req.body;
-    cat.owner = userId;
+    cat.owner = req.user.user_id;
     cat.filename = req.file.filename;
-    console.log("creating a new cat:", cat);
+    console.log('creating a new cat:', cat);
     const catId = await catModel.addCat(cat, res);
-    res.status(201).json({ message: "cat created", catId });
+    res.status(201).json({message: 'cat created', catId});
   } else {
-    res
-      .status(400)
-      .json({ message: "cat creation failed", errors: errors.array() });
+    console.log('validation errors', errors);
+    res.status(400).json({message: 'cat creation failed',
+                          errors: errors.array()});
   }
 };
 
 const modifyCat = async (req, res) => {
   const cat = req.body;
+  const user = req.user;
   if (req.params.catId) {
     cat.id = req.params.catId;
   }
-  const result = await catModel.updateCatById(cat, res);
-  if (result.affectedRows > 0) {
-    res.json({ message: "cat modified" + cat.id });
-  } else {
-    res.status(404).json({ message: "nothing changed" });
-  }
+  //console.log('user', user, 'modifies cat:', cat);
+  const result = await catModel.updateCatById(cat, user, res);
+    if (result.affectedRows > 0) {
+      res.json({message: 'cat modified: ' + cat.id});
+    } else {
+      res.status(400).json({message: 'nothing modified'});
+    }
 };
 
 const deleteCat = async (req, res) => {
-  const result = await catModel.deleteCatById(req.params.catId, req.user, res);
-  console.log("cat deleted", result);
+  const result = await catModel.deleteCatById(req.params.catId, req.user.user_id, res);
+  console.log('cat deleted', result)
+  // TODO: check what happens when sql query is not working?
   if (result.affectedRows > 0) {
-    res.json({ message: "cat deleted" });
+    res.json({message: 'cat deleted'});
   } else {
-    res.status(401).json({ message: "cat delete failed" });
+    res.status(401).json({message: 'cat delete failed'});
   }
 };
 
@@ -65,5 +75,5 @@ module.exports = {
   getCats,
   modifyCat,
   createCat,
-  deleteCat,
+  deleteCat
 };

@@ -1,6 +1,6 @@
-"use strict";
-const userModel = require("../models/userModel");
-const { validationResult } = require("express-validator");
+'use strict';
+const userModel = require('../models/userModel');
+const {validationResult} = require('express-validator');
 
 const getUsers = async (req, res) => {
   const users = await userModel.getAllUsers(res);
@@ -8,8 +8,8 @@ const getUsers = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  //choose onlu one object with matching id
-  const user = await userModel.getUsersById(req.params.userId, res);
+  // choose only one object with matching id
+  const user = await userModel.getUserById(req.params.userId, res);
   if (user) {
     res.json(user);
   } else {
@@ -18,55 +18,41 @@ const getUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  console.log("Creating a new user:", req.body);
+  console.log('Creating a new user:', req.body);
   const newUser = req.body;
   if (!newUser.role) {
     // default user role (normal user)
     newUser.role = 1;
   }
   const errors = validationResult(req);
-  console.log("validation errors", newUser);
+  console.log('validation errors', errors);
   if (errors.isEmpty()) {
     const result = await userModel.addUser(newUser, res);
-    res.status(201).json({ message: "user created", userId: result });
+    res.status(201).json({message: 'user created', userId: result});
   } else {
     res.status(400).json({
-      message: "user creation failed",
-      errors: errors.array(),
+      message: 'user creation failed',
+      errors: errors.array()
     });
   }
 };
 
-const modilfyUser = async (req, res) => {
-  const userId = req.body;
-  if (req.params.userId) {
-    user.id = req.params.userId;
-  }
-  const result = await userModel.updateUserById(user, res);
-  if (result.affectedRows > 0) {
-    res.json({ message: "user modified" + user.id });
-  } else {
-    res.status(404).json({ message: "nothing changed" });
-  }
+const modifyUser = (req, res) => {
+  // TODO: add functionality & data model
+};
+const deleteUser = (req, res) => {
+  // TODO: add functionality & data model
+};
+const checkToken = (req, res) => {
+  delete req.user.password;
+  res.json({user: req.user});
 };
 
-const deleteUser = async (req, res) => {
-  const result = await userModel.deleteUserById(req.params.userId, res);
-  console.log("user deleted", result);
-  if (result.affectedRows > 0) {
-    res.json({ message: "user deleted" });
-  } else {
-    res.status(404).json({ message: "user was already deleted" });
-  }
-};
-const checkToken = (req,res) => {
-  res.json({user: req.user});
-}
 
 module.exports = {
   getUser,
   getUsers,
-  modilfyUser,
+  modifyUser,
   createUser,
   deleteUser,
   checkToken,
