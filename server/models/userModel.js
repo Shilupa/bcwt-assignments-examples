@@ -1,10 +1,10 @@
-"use strict";
-const pool = require("../database/db");
+'use strict';
+const pool = require('../database/db');
 const promisePool = pool.promise();
 
 const getAllUsers = async (res) => {
   try {
-    const sql = "SELECT user_id, name, email, role from wop_user";
+    const sql = 'SELECT user_id, name, email, role FROM wop_user';
     const [rows] = await promisePool.query(sql);
     return rows;
   } catch (e) {
@@ -12,10 +12,10 @@ const getAllUsers = async (res) => {
     res.status(500).send(e.message);
   }
 };
-const getUsersById = async (id, res) => {
+const getUserById = async (id, res) => {
   try {
-    const sql =
-      "SELECT user_id, name, email, role FROM wop_user" + "WHERE user_id=" + id;
+    const sql = 'SELECT user_id, name, email, role FROM wop_user ' +
+                'WHERE user_id=' + id;
     const [rows] = await promisePool.query(sql);
     return rows[0];
   } catch (e) {
@@ -25,20 +25,19 @@ const getUsersById = async (id, res) => {
 };
 const getUserLogin = async (user) => {
   try {
-    console.log("getUserLogin()", user);
+    console.log('getUserLogin()', user);
     const [rows] = await promisePool.execute(
-      "SELECT * FROM wop_user WHERE email = ?;",
-      user
-    );
+        'SELECT * FROM wop_user WHERE email = ?;',
+        user);
     return rows;
   } catch (e) {
-    console.log("error", e.message);
+    console.error("error", e.message);
+    res.status(500).send(e.message);
   }
 };
 const addUser = async (user, res) => {
-  console.log("add user", user);
   try {
-    const sql = "INSERT INTO wop_user VALUES (null, ?, ?, ?, ?)";
+    const sql = 'INSERT INTO wop_user VALUES (null, ?, ?, ?, ?)';
     const values = [user.name, user.email, user.passwd, user.role];
     const [result] = await promisePool.query(sql, values);
     return result.insertId;
@@ -50,7 +49,7 @@ const addUser = async (user, res) => {
 
 module.exports = {
   getAllUsers,
-  getUsersById,
+  getUserById,
   getUserLogin,
   addUser,
 };
